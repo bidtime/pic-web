@@ -17,9 +17,9 @@ public class FileUtils {
 
 	public static String getPath() {
 		String filePath = System.getProperty("java.class.path");
-		logger.info("filePath:" + filePath);
+		logger.debug("filePath: {}", filePath);
 		String pathSplit = System.getProperty("path.separator");
-		logger.info("pathSplit:" + pathSplit);
+		logger.debug("pathSplit: {}", pathSplit);
 		if (filePath.contains(pathSplit)) {
 			filePath = filePath.substring(0, filePath.indexOf(pathSplit));
 		} else if (filePath.endsWith(".jar")) {
@@ -34,7 +34,7 @@ public class FileUtils {
 	public static String getPath2() {
 		URL url = FileUtils.class.getProtectionDomain().getCodeSource()
 				.getLocation();
-		logger.info(url.getFile());
+		logger.debug(url.getFile());
 		String filePath = null;
 		try {
 			filePath = URLDecoder.decode(url.getPath(), "utf-8");
@@ -100,18 +100,12 @@ public class FileUtils {
 	public static String getFileRealPath(String path) throws IOException {
 		String sPath = FileUtils.class.getClassLoader().getResource(".").getPath();
 		String sReturn = sPath + path;
-//		logger.info("path:"+sPath);
-//		logger.info("input:"+path);
-//		logger.info("ret:"+sReturn);
 		return sReturn;
 	}
 	
 	public static String getLocalFileRealPath(String path) throws IOException {
 		String sPath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
 		String sReturn = sPath + path;
-//		logger.info("path:"+sPath);
-//		logger.info("input:"+path);
-//		logger.info("ret:"+sReturn);
 		return "file://"+sReturn;
 	}
 	
