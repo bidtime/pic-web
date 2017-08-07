@@ -1,6 +1,6 @@
-package org.bidtime.pic.utils;
+package org.bidtime.pic.bean;
 
-public class MovePicDTO {
+public class MovePicBean {
 
   String[] archvUrl;
 

@@ -11,8 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
+import org.bidtime.pic.bean.MovePicBean;
 import org.bidtime.pic.params.GlobalConst;
-import org.bidtime.pic.utils.MovePicDTO;
 import org.bidtime.pic.utils.RequestUtils;
 import org.bidtime.pic.utils.ResponseUtils;
 import org.bidtime.pic.utils.ResultDTO;
@@ -46,7 +46,7 @@ public class MovePicServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request,	HttpServletResponse response) {
 		try {
-		  MovePicDTO movePic = paserToDTO(request);
+		  MovePicBean movePic = paserToDTO(request);
 		  ResultDTO<Map<String, String>> dto = getRetMap(movePic);
 	    ResponseUtils.setResponseResult(dto, response);
 		} catch (Exception e) {
@@ -55,8 +55,8 @@ public class MovePicServlet extends HttpServlet {
 		}
 	}
   
-  private MovePicDTO paserToDTO(HttpServletRequest request) throws Exception {
-    MovePicDTO dto = new MovePicDTO();
+  private MovePicBean paserToDTO(HttpServletRequest request) throws Exception {
+    MovePicBean dto = new MovePicBean();
     String[] archvUrls = request.getParameterValues("archvUrl");
     dto.setArchvUrl(archvUrls);
     if (!ArrayUtils.isEmpty(archvUrls)) {
@@ -74,14 +74,13 @@ public class MovePicServlet extends HttpServlet {
     return dto;
   }
   
-
   /*
    * http://localhost:8080/mv
      archvUrl:/home/web/pic/upload/store/8/15e199c3c8b244fca81153320b8b062e.txt
      subDir:erpPic
      hashStore:true
    */
-  private ResultDTO<Map<String, String>> getRetMap(MovePicDTO movePic) throws Exception {
+  private ResultDTO<Map<String, String>> getRetMap(MovePicBean movePic) throws Exception {
     String[] picArchvUrls = movePic.getArchvUrl();
     if (ArrayUtils.isEmpty(picArchvUrls)) {
       ResultDTO<Map<String, String>> rst = new ResultDTO<>();
