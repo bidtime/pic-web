@@ -138,7 +138,6 @@ public static ResultDTO<List<?>> parserToDTO(String ctx) throws Exception {
 			param.setContent_type(up.getContent_type());
 			param.setMd5(up.getMd5());
 			param.setName(up.getName());
-			param.setPath(up.getPath());
 			param.setSize(up.getSize());
 			//
 			String url = mergeArchvUrl(entry.getValue());

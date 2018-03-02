@@ -11,7 +11,7 @@ public class FileParam {
 	
 	private String content_type;
 	
-	private String path;
+	//private String path;
 	
 	private String md5;
 
@@ -45,13 +45,13 @@ public class FileParam {
 		this.content_type = content_type;
 	}
 
-	public String getPath() {
-		return path;
-	}
-
-	public void setPath(String path) {
-		this.path = path;
-	}
+//	public String getPath() {
+//		return path;
+//	}
+//
+//	public void setPath(String path) {
+//		this.path = path;
+//	}
 
 	public Integer getSize() {
 		return size;
@@ -82,7 +82,6 @@ public class FileParam {
 		return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
 				.append("name", this.name)
 				.append("content_type", this.content_type)
-				.append("path", this.path)
 				.append("md5", this.md5)
 				.append("size", this.size)
 				.append("url", this.url)
@@ -101,7 +100,7 @@ public class FileParam {
 		FileParam rhs = (FileParam) object;
 		return new EqualsBuilder().appendSuper(super.equals(object)).append(
 				this.content_type, rhs.content_type)
-				.append(this.size, rhs.size).append(this.path, rhs.path)
+				.append(this.size, rhs.size)
 				.append(this.md5, rhs.md5).append(this.name, rhs.name)
 				.append(this.url, rhs.url).append(this.index, rhs.index)
 				.isEquals();
@@ -114,7 +113,7 @@ public class FileParam {
 	public int hashCode() {
 		return new HashCodeBuilder(-404694209, 2059458549).appendSuper(
 				super.hashCode()).append(this.content_type).append(this.size)
-				.append(this.path).append(this.md5).append(this.name).append(this.url)
+				.append(this.md5).append(this.name).append(this.url)
 				.append(this.index).toHashCode();
 	}
 		
