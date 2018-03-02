@@ -9,14 +9,18 @@ import java.util.Map;
 
 import javax.servlet.ServletException;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.bidtime.pic.bean.FilePicVO;
 import org.bidtime.pic.bean.KeyValBean;
 import org.bidtime.pic.bean.UploadParam;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class HtmlForm {
 	
-	@SuppressWarnings("unchecked")
+  private static final Logger log = LoggerFactory.getLogger(HtmlForm.class);
+	
+  @SuppressWarnings("unchecked")
   public static ResultDTO<List<FilePicVO>> parserToDTO(String ctx) {
 		Map<String, UploadParam> mapParm = new LinkedHashMap<>();
 		try {
@@ -61,6 +65,7 @@ public class HtmlForm {
 			return;
 		}
 		for (String str: lines) {
+			log.debug("line: {}", str);
 			// name="file1.path" #9 /home/web/ul/store/1/0000005
 			KeyValBean nameVBean = KeyValBean.indexOfSplt(str, Signal.TAB);	// "\t"
 			if (nameVBean == null) {
@@ -136,7 +141,9 @@ public class HtmlForm {
 				sb.append( input.trim() );
 			}
 		}
-		return sb.toString();
+		String str = sb.toString();
+		log.debug("content: {}", str);
+		return str;
 	}
 
 //	public void setResponseString(HttpServletResponse r, String msg) {

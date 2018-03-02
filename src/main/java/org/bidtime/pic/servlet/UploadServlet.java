@@ -22,7 +22,7 @@ import org.slf4j.LoggerFactory;
 @SuppressWarnings("serial")
 public class UploadServlet extends HttpServlet {
 
-	private final Logger log = LoggerFactory.getLogger(UploadServlet.class);
+	private static final Logger log = LoggerFactory.getLogger(UploadServlet.class);
 	
 	public UploadServlet() {
 	  log.debug("upload servlet create...");
