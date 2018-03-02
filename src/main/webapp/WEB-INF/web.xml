@@ -26,4 +26,20 @@
       <url-pattern>/mv</url-pattern>
     </servlet-mapping>
 
+	<!-- filter -->
+	<filter>
+		<filter-name>CharsetEncodeFilter</filter-name>
+		<filter-class>org.bidtime.pic.filter.CharsetEncodeFilter</filter-class>
+		<init-param>
+			<param-name>charsetEncode</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>CharsetEncodeFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+		<dispatcher>REQUEST</dispatcher>
+		<dispatcher>FORWARD</dispatcher>
+	</filter-mapping>
+
 </web-app>
