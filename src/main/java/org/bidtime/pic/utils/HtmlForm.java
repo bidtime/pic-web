@@ -2,8 +2,8 @@ package org.bidtime.pic.utils;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -12,7 +12,9 @@ import javax.servlet.ServletException;
 import org.apache.commons.lang3.StringUtils;
 import org.bidtime.pic.bean.FilePicVO;
 import org.bidtime.pic.bean.KeyValBean;
+import org.bidtime.pic.bean.FileParam;
 import org.bidtime.pic.bean.UploadParam;
+import org.bidtime.pic.params.GlobalConst;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,20 +23,14 @@ public class HtmlForm {
   private static final Logger log = LoggerFactory.getLogger(HtmlForm.class);
 	
   @SuppressWarnings("unchecked")
-  public static ResultDTO<List<FilePicVO>> parserToDTO(String ctx) {
+public static ResultDTO<List<?>> parserToDTO(String ctx) throws Exception {
 		Map<String, UploadParam> mapParm = new LinkedHashMap<>();
 		try {
 			HtmlForm.parserToMap(ctx, mapParm);
 			if (mapParm.isEmpty()) {
-				return ResultDTO.error("无图片");
+				return ResultDTO.error("无上传文件");
 			} else {
-				ResultDTO<List<FilePicVO>> dto = new ResultDTO<>();
-				try {
-					mapToDTO(mapParm, dto);
-					return dto;
-				} finally {
-					dto = null;
-				}
+				return new ResultDTO<>(mapToList(mapParm));
 			}
 		} finally {
 			mapParm.clear();
@@ -64,7 +60,7 @@ public class HtmlForm {
 		if (lines == null || lines.length<=0) {
 			return;
 		}
-		for (String str: lines) {
+		for (String str : lines) {
 			log.debug("line: {}", str);
 			// name="file1.path" #9 /home/web/ul/store/1/0000005
 			KeyValBean nameVBean = KeyValBean.indexOfSplt(str, Signal.TAB);	// "\t"
@@ -77,16 +73,16 @@ public class HtmlForm {
 				KeyValBean fieldKeyBean = getSplitNameKeyVal( fieldKeyStr );							// file1 和 path
 				try {
 					if ( fieldKeyBean != null ) {				
-						String fieldName = fieldKeyBean.getKey();	// file1
-						String propName = fieldKeyBean.getVal();	// path
+						String key = fieldKeyBean.getKey();	// file1
+						String val = fieldKeyBean.getVal();	// path
 						// 从 map 中获取 对应 key 的 UploadParam
-						UploadParam upBean = mapUpladParam.get(fieldName);
+						UploadParam upBean = mapUpladParam.get(key);
 						if ( upBean == null ) {
 							upBean = new UploadParam();
 						}
 						String propValue = nameVBean.getVal();			// /home/web/ul/store/1/0000005
-						upBean.setPropValue(propName, propValue);
-						mapUpladParam.put(fieldName, upBean);
+						upBean.setPropValue(val, propValue);
+						mapUpladParam.put(key, upBean);
 					}
 				} finally {
 					fieldKeyBean = null;
@@ -114,12 +110,70 @@ public class HtmlForm {
 		}
 	}
 	
-	public static void mapToDTO(Map<String, UploadParam> map, ResultDTO<List<FilePicVO>> dto) {
-		List<FilePicVO> list = new ArrayList<>();
-		for (Map.Entry<String, UploadParam> entry : map.entrySet()) {
-			list.add(new FilePicVO(entry.getKey(), entry.getValue().mergeArchvUrl()));
+	private static List<?> mapToList(Map<String, UploadParam> map) throws Exception {
+		if (GlobalConst.getInstance().getOutPattern()==1) {
+			return mapToListOutParam(map);
+		} else {
+			return mapToListPicVO(map);
 		}
-		dto.setData(list);			
+	}
+	
+	private static List<FilePicVO> mapToListPicVO(Map<String, UploadParam> map) {
+		List<FilePicVO> list = new LinkedList<>();
+		for (Map.Entry<String, UploadParam> entry : map.entrySet()) {
+			FilePicVO bean = new FilePicVO(entry.getKey(), mergeArchvUrl(entry.getValue()));
+			//
+			list.add(bean);
+		}
+		return list;
+	}
+	
+	private static List<FileParam> mapToListOutParam(Map<String, UploadParam> map) throws Exception {
+		List<FileParam> list = new LinkedList<>();
+		for (Map.Entry<String, UploadParam> entry : map.entrySet()) {
+			UploadParam up = entry.getValue();
+			//OutParam param = BeanUtils.copyProps(entry.getValue(), OutParam.class);
+			FileParam param = new FileParam();
+			param.setIndex(entry.getKey());
+			param.setContent_type(up.getContent_type());
+			param.setMd5(up.getMd5());
+			param.setName(up.getName());
+			param.setPath(up.getPath());
+			param.setSize(up.getSize());
+			//
+			String url = mergeArchvUrl(entry.getValue());
+			param.setUrl(url);
+			//
+			list.add(param);
+		}
+		return list;
+	}
+	
+//	public static void mapToDTO(Map<String, UploadParam> map, ResultDTO<List<FilePicVO>> dto) {
+//		List<FilePicVO> list = new ArrayList<>();
+//		for (Map.Entry<String, UploadParam> entry : map.entrySet()) {
+//			list.add(new FilePicVO(entry.getKey(), mergeArchvUrl(entry.getValue())));
+//		}
+//		dto.setData(list);			
+//	}
+//	
+//	public static void mapToDTO(Map<String, UploadParam> map, ResultDTO<List<OutParam>> dto) throws Exception {
+//		List<OutParam> list = new ArrayList<>();
+//		for (Map.Entry<String, UploadParam> entry : map.entrySet()) {
+//			OutParam param = new OutParam();
+//			BeanUtils.copyProps(entry.getValue(), param);
+//			String url = mergeArchvUrl(entry.getValue());
+//			param.setUrl(url);
+//		}
+//		dto.setData(list);			
+//	}
+	
+	public static String mergeArchvUrl(UploadParam bean) {
+		return mergeArchvUrl(bean.getPath(), bean.getName());
+	}
+	
+	public static String mergeArchvUrl(String path, String name) {
+		return GlobalConst.getInstance().mergeArchvUrl(path, name);
 	}
 
 	public static String getCtxOfReader(BufferedReader reader) throws ServletException,

@@ -6,16 +6,17 @@
 
 	<display-name>pic-web</display-name>
 
+	<!-- upload -->
 	<servlet>
       <servlet-name>upload</servlet-name>
       <servlet-class>org.bidtime.pic.servlet.UploadServlet</servlet-class>
     </servlet>
     <servlet-mapping>
       <servlet-name>upload</servlet-name>
-      <url-pattern>/</url-pattern>
+      <url-pattern>/upload</url-pattern>
     </servlet-mapping>
-    
 
+	<!-- mv -->
 	<servlet>
       <servlet-name>mv</servlet-name>
       <servlet-class>org.bidtime.pic.servlet.MovePicServlet</servlet-class>

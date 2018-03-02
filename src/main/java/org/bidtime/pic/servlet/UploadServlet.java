@@ -1,14 +1,12 @@
 package org.bidtime.pic.servlet;
 
 import java.io.IOException;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.bidtime.pic.bean.FilePicVO;
 import org.bidtime.pic.utils.HtmlForm;
 import org.bidtime.pic.utils.ResponseUtils;
 import org.bidtime.pic.utils.ResultDTO;
@@ -44,7 +42,7 @@ public class UploadServlet extends HttpServlet {
 			HttpServletResponse response) {
 		try {
 			String ctx = HtmlForm.getCtxOfReader(request.getReader());
-			ResultDTO<List<FilePicVO>> dto = HtmlForm.parserToDTO(ctx);
+			ResultDTO<?> dto = HtmlForm.parserToDTO(ctx);
 			ResponseUtils.setResponseResult(dto, response);
 		} catch (ServletException e) {
 			log.error(e.getMessage());

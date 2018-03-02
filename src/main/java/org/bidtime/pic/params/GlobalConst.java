@@ -13,6 +13,7 @@ public class GlobalConst {
 	
 	private WebFileParam webFile = new WebFileParam("web");
 	private ArchvFileParam archvFile = new ArchvFileParam("archv");
+	private Integer outPattern;
 
 	private volatile static GlobalConst instance = null;
 
@@ -37,6 +38,7 @@ public class GlobalConst {
 			p.loadOfSrc("globalConst.properties");
 			webFile.setProp(p);
 			archvFile.setProp(p);
+			outPattern = Integer.parseInt(p.getString("outPattern"));
 		} finally {
 			p = null;
 		}
@@ -63,5 +65,13 @@ public class GlobalConst {
 			return "";
 		}
 	}
-	
+
+	public Integer getOutPattern() {
+		return outPattern;
+	}
+
+	public void setOutPattern(Integer outPattern) {
+		this.outPattern = outPattern;
+	}
+
 }

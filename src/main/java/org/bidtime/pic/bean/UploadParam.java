@@ -4,7 +4,6 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
-import org.bidtime.pic.params.GlobalConst;
 
 public class UploadParam {
 
@@ -15,7 +14,7 @@ public class UploadParam {
 	private String path;
 	
 	private String md5;
-	
+		
 	public String getMd5() {
 		return md5;
 	}
@@ -24,7 +23,7 @@ public class UploadParam {
 		this.md5 = md5;
 	}
 
-	private String size;
+	private Integer size;
 
 	public String getName() {
 		return name;
@@ -50,14 +49,15 @@ public class UploadParam {
 		this.path = path;
 	}
 
-	public String getSize() {
+	public Integer getSize() {
 		return size;
 	}
 
-	public void setSize(String size) {
+	public void setSize(Integer size) {
 		this.size = size;
 	}
 	
+	@Override
 	public String toString() {
 		return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
 				.append("name", this.name)
@@ -68,9 +68,9 @@ public class UploadParam {
 				.toString();
 	}
 	
-	public String mergeArchvUrl() {
-		return GlobalConst.getInstance().mergeArchvUrl(path, name);
-	}
+//	public String mergeArchvUrl() {
+//		return GlobalConst.getInstance().mergeArchvUrl(path, name);
+//	}
 	
 	private static final String PROP_NAME = "name";
 	private static final String CONTENT_TYPE = "content_type";
@@ -88,13 +88,14 @@ public class UploadParam {
 		} else if (propName.equals(PROP_MD5)) {
 			setMd5(propValue);
 		} else if (propName.equals(PROP_SIZE)) {
-			setSize(propValue);
+			setSize(Integer.parseInt(propValue));
 		}
 	}
 
 	/**
 	 * @see java.lang.Object#equals(Object)
 	 */
+	@Override
 	public boolean equals(Object object) {
 		if (!(object instanceof UploadParam)) {
 			return false;
@@ -110,6 +111,7 @@ public class UploadParam {
 	/**
 	 * @see java.lang.Object#hashCode()
 	 */
+	@Override
 	public int hashCode() {
 		return new HashCodeBuilder(-404694209, 2059458549).appendSuper(
 				super.hashCode()).append(this.content_type).append(this.size)
