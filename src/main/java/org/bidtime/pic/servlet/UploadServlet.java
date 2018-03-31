@@ -1,13 +1,16 @@
 package org.bidtime.pic.servlet;
 
 import java.io.IOException;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.bidtime.pic.bean.UploadParam;
 import org.bidtime.pic.utils.HtmlForm;
+import org.bidtime.pic.utils.FormMapOut;
 import org.bidtime.pic.utils.ResponseUtils;
 import org.bidtime.pic.utils.ResultDTO;
 import org.slf4j.Logger;
@@ -41,8 +44,8 @@ public class UploadServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) {
 		try {
-			String ctx = HtmlForm.getCtxOfReader(request.getReader());
-			ResultDTO<?> dto = HtmlForm.parserToDTO(ctx);
+			Map<String, UploadParam> mapParam = HtmlForm.getMapOfReader(request.getReader());
+			ResultDTO<?> dto = FormMapOut.parserToDTO(mapParam);
 			ResponseUtils.setResponseResult(dto, response);
 		} catch (ServletException e) {
 			log.error(e.getMessage());

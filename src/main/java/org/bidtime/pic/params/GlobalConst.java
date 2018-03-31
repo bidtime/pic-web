@@ -14,6 +14,7 @@ public class GlobalConst {
 	private WebFileParam webFile = new WebFileParam("web");
 	private ArchvFileParam archvFile = new ArchvFileParam("archv");
 	private Integer outPattern;
+	private Boolean fdfs;
 
 	private volatile static GlobalConst instance = null;
 
@@ -38,14 +39,25 @@ public class GlobalConst {
 			p.loadOfSrc("globalConst.properties");
 			webFile.setProp(p);
 			archvFile.setProp(p);
+			//
 			outPattern = Integer.parseInt(p.getString("outPattern"));
+			//
+			fdfs = Boolean.parseBoolean(p.getString("fdfs"));
 		} finally {
 			p = null;
 		}
 	}
 
-	public String mergeArchvUrl(String pathFile, String fOnlyName) {
-		return archvFile.mergeArchvUrl(pathFile, fOnlyName);
+//	public String mergeArchvUrl(String pathFile, String fOnlyName) {
+//		return archvFile.mergeArchvUrl(pathFile, fOnlyName);
+//	}
+
+	public String mergeArchvUrl(String fileName) {
+		return archvFile.mergeArchvUrl(fileName);
+	}
+
+	public String renameFile(String pathFile, String fOnlyName) {
+		return archvFile.renameFile(pathFile, fOnlyName);
 	}
 
 	public String mergeWebUrl(String pathFile, String subDir, Boolean hashStore) {
@@ -72,6 +84,14 @@ public class GlobalConst {
 
 	public void setOutPattern(Integer outPattern) {
 		this.outPattern = outPattern;
+	}
+
+	public Boolean getFdfs() {
+		return fdfs;
+	}
+
+	public void setFdfs(Boolean fdfs) {
+		this.fdfs = (fdfs==null) ? false : fdfs;
 	}
 
 }

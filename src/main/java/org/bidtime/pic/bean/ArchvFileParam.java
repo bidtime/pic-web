@@ -87,19 +87,41 @@ public class ArchvFileParam extends WebFileParam {
 		return newFile;
 	}
 
-	public String mergeArchvUrl(String pathFile, String fOnlyName) {
+	public String renameFile(String pathFile, String fOnlyName) {
 		StringBuilder sb = new StringBuilder();
 		try {
 			String fileName = mergeNewFile(pathFile, fOnlyName, sb);
-			String url = fileName.replace(webRoot, webUrl);
-			sb.append(", ");
-			sb.append("url: " + url);
+			sb.append("old: ");
+			sb.append(pathFile);
+			sb.append(fOnlyName);
+			sb.append(" -> ");
+			sb.append("new: ");
+			sb.append(fileName);
 			log.debug(sb.toString());
-			return url;
+			return fileName;
 		} finally {
 			sb.setLength(0);
 			sb = null;
 		}
 	}
+	
+	public String mergeArchvUrl(String fileName) {
+		return fileName.replace(webRoot, webUrl);
+	}
+
+//	public String mergeArchvUrl(String pathFile, String fOnlyName) {
+//		StringBuilder sb = new StringBuilder();
+//		try {
+//			String fileName = mergeNewFile(pathFile, fOnlyName, sb);
+//			String url = fileName.replace(webRoot, webUrl);
+//			sb.append(", ");
+//			sb.append("url: " + url);
+//			log.debug(sb.toString());
+//			return url;
+//		} finally {
+//			sb.setLength(0);
+//			sb = null;
+//		}
+//	}
 
 }

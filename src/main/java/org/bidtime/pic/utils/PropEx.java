@@ -9,6 +9,8 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.util.Date;
 import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.lang3.StringUtils;
@@ -49,6 +51,18 @@ public class PropEx extends Properties {
 	public String getString(Object key) {
 		return String.valueOf(get(key));
 	}
+
+	public Map<String, Object>  getMap(Object key) {
+		Map<String, Object> map = new HashMap<>(1);
+		map.put((String)key, getString(key));
+		return map;
+	}
+	
+//	public Map<String, Object>  getMap(Object key) {
+//		Map<String, Object> map = new HashMap<>(1);
+//		map.put((String)key, getString(key));
+//		return map;
+//	}
 
 	public String getString(Object key, String sDefault) {
 		Object o = get(key);
