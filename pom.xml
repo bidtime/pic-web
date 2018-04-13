@@ -62,7 +62,7 @@
     <dependency>  
         <groupId>com.alibaba</groupId>  
         <artifactId>fastjson</artifactId>  
-	<version>${fastjson.version}</version>
+		<version>${fastjson.version}</version>
     </dependency>  
 
     <!-- slf4j -->
@@ -87,19 +87,36 @@
     <!-- commons -->
     <dependency>
         <groupId>commons-io</groupId>
-	<artifactId>commons-io</artifactId>
-	<version>${commons-io.version}</version>
+		<artifactId>commons-io</artifactId>
+		<version>${commons-io.version}</version>
     </dependency>
+    
     <dependency>
-	<groupId>commons-logging</groupId>
-	<artifactId>commons-logging</artifactId>
-	<version>${commons-logging.version}</version>
+		<groupId>commons-logging</groupId>
+		<artifactId>commons-logging</artifactId>
+		<version>${commons-logging.version}</version>
     </dependency>
+    
     <dependency>
-	<groupId>org.apache.commons</groupId>
-	<artifactId>commons-lang3</artifactId>
-	<version>${commons-lang3.version}</version>
+		<groupId>org.apache.commons</groupId>
+		<artifactId>commons-lang3</artifactId>
+		<version>${commons-lang3.version}</version>
     </dependency>
+    
+    <!--
+	<dependency>
+	    <groupId>org.csource</groupId>
+	    <artifactId>fastdfs-client-java</artifactId>
+	    <version>1.27-SNAPSHOT</version>
+	</dependency>
+	-->
+	
+	<!-- https://github.com/Lzw2016/fastdfs-java-client.git -->
+	<dependency>
+	    <groupId>org.cleverframe</groupId>
+	    <artifactId>fastdfs-java-client</artifactId>
+    	<version>1.0.0.RELEASE</version>
+	</dependency>
 	    
   </dependencies>
   	<build>

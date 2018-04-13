@@ -16,10 +16,22 @@ import org.cleverframe.fastdfs.pool.ConnectionPool;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * 通过UploadFdfs将图片上传至fastdfs
+ * @author riverbo
+ * @since 2018.04.13
+ */
 public class UploadFdfs {
 	
 	private static final Logger log = LoggerFactory.getLogger(UploadFdfs.class);
 
+	/**
+	 * upload
+	 * @param fileName
+	 * @return
+	 * @author riverbo
+	 * @since 2018.04.13
+	 */
 	public static String upload(String fileName) {
 		// 连接池
 		ConnectionPools pools = ConnectionPools.getInstance();
@@ -58,8 +70,6 @@ public class UploadFdfs {
 			// String filePath = storageClient.downloadFile("group1",
 			// "M00/00/00/wKgKgFg02TaAY3mTADCUhuWQdRc53.xlsx",
 			// downloadFileWriter);
-
-			// ... 更多操作
 		} catch (Exception e) {
 			log.error("upload: {}", e.getMessage());
 		} finally {

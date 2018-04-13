@@ -17,8 +17,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * @author jss
- * 
+ * 接收nginx图片上传后的，后续处理工作。 
+ * @author riverbo
+ * @since 2018.04.13
  */
 @SuppressWarnings("serial")
 public class UploadServlet extends HttpServlet {
