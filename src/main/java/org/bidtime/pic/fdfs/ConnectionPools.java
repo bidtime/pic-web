@@ -26,10 +26,10 @@ public class ConnectionPools {
 
 	private static ConnectionPools instance;
 	
-	private static CfgPar par;
+	private static CfgPar cfgPar;
 
 	static {
-		par = getProps("fdfs_client.conf");
+		cfgPar = getProps("fdfs_client.conf");
 	}
 	
 	private static CfgPar getProps(String props) {
@@ -39,6 +39,7 @@ public class ConnectionPools {
 			p.loadOfSrc(props);
 			c.setTrackerServer(p.getString("tracker_server"));
 			c.setHttpServer(p.getString("http_server"));
+			c.setStorageNode(p.getString("storage_Node"));
 		} catch (Exception e) {
 			log.error("getProps: {}", e.getMessage());
 		} finally {
@@ -52,8 +53,10 @@ public class ConnectionPools {
 		private String trackerServer;
 		
 		private String httpServer;
+		
+		private String storageNode;
 
-		public String getHttpServer() {
+    public String getHttpServer() {
 			return httpServer;
 		}
 
@@ -68,6 +71,18 @@ public class ConnectionPools {
 		public void setTrackerServer(String trackerServer) {
 			this.trackerServer = trackerServer;
 		}
+    
+    public String getStorageNode() {
+      return storageNode;
+    }
+    
+    public void setStorageNode(String storageNode) {
+      if (storageNode==null || storageNode.isEmpty()) {
+        this.storageNode = "group1";
+      } else {
+        this.storageNode = storageNode;
+      }
+    }
 		
 //		public String getUrl(String group, String path) {
 //			StringBuilder sb = new StringBuilder();
@@ -96,7 +111,7 @@ public class ConnectionPools {
 	}
 	
 	public CfgPar getPar() {
-		return par;
+		return cfgPar;
 	}
 	
 //	public void setCfgPar(CfgPar par) {

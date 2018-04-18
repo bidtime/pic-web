@@ -25,8 +25,6 @@ public class UploadFdfs {
 	
 	private static final Logger log = LoggerFactory.getLogger(UploadFdfs.class);
 	
-	private static final String DEFAULT_GROUP = "group1";
-
 	/**
 	 * upload
 	 * @param fileName
@@ -35,7 +33,7 @@ public class UploadFdfs {
 	 * @since 2018.04.13
 	 */
 	public static String upload(String fileName) {
-	  return upload(fileName, DEFAULT_GROUP);
+	  return upload(fileName, ConnectionPools.getInstance().getPar().getStorageNode());
 	}
 	
   public static String upload(String fileName, String groupName) {
@@ -76,7 +74,7 @@ public class UploadFdfs {
 		try {
 		  file.getCanonicalPath();
 			FileInputStream fileInputStream = FileUtils.openInputStream(file);
-			StorePath storePath = storageClient.uploadFile(DEFAULT_GROUP, fileInputStream, file.length(), ext);
+			StorePath storePath = storageClient.uploadFile(groupName, fileInputStream, file.length(), ext);
 			// StorePath{group='group1',
 			// path='M00/00/00/wKhk6Vq_RgaASB4mAAAAEu6v6vY694.txt'}
 			//System.out.println(storePath);
