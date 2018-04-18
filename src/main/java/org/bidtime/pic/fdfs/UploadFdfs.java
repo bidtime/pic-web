@@ -24,6 +24,8 @@ import org.slf4j.LoggerFactory;
 public class UploadFdfs {
 	
 	private static final Logger log = LoggerFactory.getLogger(UploadFdfs.class);
+	
+	private static final String DEFAULT_GROUP = "group1";
 
 	/**
 	 * upload
@@ -33,6 +35,22 @@ public class UploadFdfs {
 	 * @since 2018.04.13
 	 */
 	public static String upload(String fileName) {
+	  return upload(fileName, DEFAULT_GROUP);
+	}
+	
+  public static String upload(String fileName, String groupName) {
+    String prefix=fileName.substring(fileName.lastIndexOf(".")+1);
+    return upload(fileName, groupName, prefix);
+  }
+  
+  /**
+   * upload
+   * @param fileName
+   * @return
+   * @author riverbo
+   * @since 2018.04.13
+   */
+  public static String upload(String fileName, String groupName, String ext) {
 		// 连接池
 		ConnectionPools pools = ConnectionPools.getInstance();
 		ConnectionPool connectionPool = pools.get();
@@ -56,11 +74,12 @@ public class UploadFdfs {
 		// 上传文件
 		File file = new File(fileName);
 		try {
+		  file.getCanonicalPath();
 			FileInputStream fileInputStream = FileUtils.openInputStream(file);
-			StorePath storePath = storageClient.uploadFile("group1", fileInputStream, file.length(), "txt");
+			StorePath storePath = storageClient.uploadFile(DEFAULT_GROUP, fileInputStream, file.length(), ext);
 			// StorePath{group='group1',
 			// path='M00/00/00/wKhk6Vq_RgaASB4mAAAAEu6v6vY694.txt'}
-			System.out.println(storePath);
+			//System.out.println(storePath);
 			url = pools.getPar().getHttpServer() + storePath.getFullPath();
 			// FilePath fp = JSON.parseObject(storePath, FilePath.class, new
 			// Feature[0]);
